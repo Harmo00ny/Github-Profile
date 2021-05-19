@@ -1,17 +1,15 @@
 package com.marysugar.github_profile.model
 
-import android.util.Log
-import android.widget.ProgressBar
-import androidx.core.view.isVisible
+import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import com.squareup.picasso.Picasso
 
-@BindingAdapter(value = ["setupVisibility"])
-fun ProgressBar.progressVisibility(loadingState: LoadingState?) {
-    loadingState?.let {
-        isVisible = when(it.status) {
-            LoadingState.Status.RUNNING -> true
-            LoadingState.Status.SUCCESS -> false
-            LoadingState.Status.FAILED -> false
-        }
+@BindingAdapter(value = ["setImageUrl"])
+fun ImageView.bindImageUrl(url: String?) {
+    if (url != null && url.isNotBlank()) {
+
+        Picasso.get()
+            .load(url)
+            .into(this)
     }
 }

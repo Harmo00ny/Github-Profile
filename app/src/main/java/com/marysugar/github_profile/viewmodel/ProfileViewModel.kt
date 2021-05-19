@@ -23,12 +23,18 @@ class ProfileViewModel(private val githubApi: GithubApi) : ViewModel() {
     val data: LiveData<User>
         get() = _data
 
-    private val _progressVisibility = MutableLiveData(View.VISIBLE)
+    private val _progressVisibility = MutableLiveData<Int>()
     val progressVisibility: LiveData<Int>
         get() = _progressVisibility
 
+    private val _cardViewVisibility = MutableLiveData<Int>()
+    val cardViewVisibility: LiveData<Int>
+        get() = _cardViewVisibility
+
     init {
         fetchProfile()
+        _progressVisibility.postValue(View.INVISIBLE)
+        _cardViewVisibility.postValue(View.INVISIBLE)
     }
 
     private fun fetchProfile() {
@@ -47,10 +53,21 @@ class ProfileViewModel(private val githubApi: GithubApi) : ViewModel() {
         if (response.isSuccessful) {
             _data.postValue(response.body())
             _loadingState.postValue(LoadingState.LOADED)
-            _progressVisibility.postValue(View.INVISIBLE)
+
+            setUiStateSuccessful()
         } else {
             _loadingState.postValue(LoadingState.error(response.message()))
-            _progressVisibility.postValue(View.INVISIBLE)
+
+            setUiStateFails()
         }
+    }
+
+    private fun setUiStateSuccessful() {
+        _progressVisibility.postValue(View.INVISIBLE)
+        _cardViewVisibility.postValue(View.VISIBLE)
+    }
+
+    private fun setUiStateFails() {
+        _progressVisibility.postValue(View.INVISIBLE)
     }
 }

@@ -1,7 +1,6 @@
 package com.marysugar.github_profile.di
 
 import android.app.Application
-import androidx.lifecycle.ViewModel
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -58,5 +57,4 @@ val retrofitServiceModule = module {
 
 val viewModelModule = module {
     viewModel { ProfileViewModel(get()) }
-    viewModel { GithubViewModel(get()) }
 }

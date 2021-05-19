@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.marysugar.github_profile.R
+import com.marysugar.github_profile.viewmodel.ProfileViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -18,6 +20,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class RepositoryFragment : Fragment() {
+    private val profileViewModel by sharedViewModel<ProfileViewModel>()
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -39,6 +42,7 @@ class RepositoryFragment : Fragment() {
     }
 
     companion object {
+        const val TAG = "RepositoryFragment"
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
