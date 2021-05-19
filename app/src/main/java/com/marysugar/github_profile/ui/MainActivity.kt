@@ -9,14 +9,11 @@ import androidx.fragment.app.Fragment
 import com.marysugar.github_profile.R
 import com.marysugar.github_profile.databinding.ActivityMainBinding
 import com.marysugar.github_profile.viewmodel.MainViewModel
-import com.marysugar.github_profile.viewmodel.ProfileViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class MainActivity : AppCompatActivity() {
 
     private val mainViewModel by viewModels<MainViewModel>()
-    private val profileViewModel by viewModel<ProfileViewModel>()
-
     private val binding by lazy {
         DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
     }

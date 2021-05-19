@@ -5,7 +5,6 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.marysugar.github_profile.api.GithubApi
-import com.marysugar.github_profile.viewmodel.GithubViewModel
 import com.marysugar.github_profile.viewmodel.ProfileViewModel
 import okhttp3.Cache
 import okhttp3.OkHttpClient

@@ -1,17 +1,14 @@
 package com.marysugar.github_profile.viewmodel
 
 import android.view.View
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.marysugar.github_profile.api.GithubApi
 import com.marysugar.github_profile.model.LoadingState
 import com.marysugar.github_profile.model.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ProfileViewModel(private val githubApi: GithubApi) : ViewModel() {
+class ProfileViewModel(private val githubApi: GithubApi) : ViewModel(), LifecycleObserver {
     /**
      * LiveData
      */
@@ -32,9 +29,8 @@ class ProfileViewModel(private val githubApi: GithubApi) : ViewModel() {
         get() = _cardViewVisibility
 
     init {
+        initUiState()
         fetchProfile()
-        _progressVisibility.postValue(View.INVISIBLE)
-        _cardViewVisibility.postValue(View.INVISIBLE)
     }
 
     private fun fetchProfile() {
@@ -43,6 +39,7 @@ class ProfileViewModel(private val githubApi: GithubApi) : ViewModel() {
                 fetchProfileResponse()
             } catch (e: Exception) {
                 _loadingState.postValue(LoadingState.error(e.message))
+                setUiStateFails()
             }
         }
     }
@@ -53,13 +50,16 @@ class ProfileViewModel(private val githubApi: GithubApi) : ViewModel() {
         if (response.isSuccessful) {
             _data.postValue(response.body())
             _loadingState.postValue(LoadingState.LOADED)
-
             setUiStateSuccessful()
         } else {
             _loadingState.postValue(LoadingState.error(response.message()))
-
             setUiStateFails()
         }
+    }
+
+    private fun initUiState() {
+        _progressVisibility.postValue(View.VISIBLE)
+        _cardViewVisibility.postValue(View.INVISIBLE)
     }
 
     private fun setUiStateSuccessful() {
@@ -69,5 +69,9 @@ class ProfileViewModel(private val githubApi: GithubApi) : ViewModel() {
 
     private fun setUiStateFails() {
         _progressVisibility.postValue(View.INVISIBLE)
+    }
+
+    companion object {
+        const val TAG = "ProfileViewModel"
     }
 }
