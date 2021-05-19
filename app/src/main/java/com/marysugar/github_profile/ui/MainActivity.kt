@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
                     binding.toolbar.title = mainViewModel.toolbarTitleProfile
                 }
                 R.id.repository -> {
-                    setCurrentFragment(RepositoryFragment(), RepositoryFragment.TAG)
+                    setCurrentFragment(RepositoryListFragment(), RepositoryListFragment.TAG)
                     binding.toolbar.title = mainViewModel.toolbarTitleRepository
                 }
             }

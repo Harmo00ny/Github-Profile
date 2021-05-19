@@ -12,10 +12,10 @@ import com.marysugar.github_profile.R
 import com.marysugar.github_profile.databinding.FragmentProfileBinding
 import com.marysugar.github_profile.model.LoadingState
 import com.marysugar.github_profile.viewmodel.ProfileViewModel
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProfileFragment : Fragment() {
-    private val profileViewModel: ProfileViewModel by sharedViewModel()
+    private val profileViewModel: ProfileViewModel by viewModel()
     private lateinit var binding: FragmentProfileBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
