@@ -32,16 +32,21 @@ class RepositoryListFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        setupAdapter()
+        setupUI()
     }
 
-    private fun setupAdapter() {
+    private fun setupUI() {
         val repositoryListAdapter = RepositoryListAdapter()
         binding.adapter = repositoryListAdapter
 
-        repositoryListViewModel.data.observe(this, {
-            it.let(repositoryListAdapter::submitList)
-        })
+        repositoryListViewModel.let {
+            it.data.observe(this, { list ->
+                list.let(repositoryListAdapter::submitList)
+            })
+            it.progressVisibility.observe(this, { visibility ->
+                binding.progressBar.visibility = visibility
+            })
+        }
     }
 
     companion object {
