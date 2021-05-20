@@ -18,12 +18,6 @@ class ProfileFragment : Fragment() {
     private val profileViewModel: ProfileViewModel by viewModel()
     private lateinit var binding: FragmentProfileBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        lifecycle.addObserver(profileViewModel)
-        Log.d(TAG,"fetch")
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,7 +34,10 @@ class ProfileFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        setupProfile()
+    }
 
+    private fun setupProfile() {
         profileViewModel.let {
             it.data.observe(this, { user ->
                 binding.user = user

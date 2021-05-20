@@ -14,8 +14,12 @@ class RepositoryListAdapter
     class RepositoryViewHolder(val binding: ItemRepositoryBinding) : RecyclerView.ViewHolder(binding.root)
 
     companion object: DiffUtil.ItemCallback<Repository>() {
-        override fun areItemsTheSame(oldItem: Repository, newItem: Repository): Boolean = oldItem === newItem
-        override fun areContentsTheSame(oldItem: Repository, newItem: Repository): Boolean = oldItem.id == newItem.id
+        override fun areItemsTheSame(
+            oldItem: Repository,
+            newItem: Repository): Boolean = oldItem === newItem
+        override fun areContentsTheSame(
+            oldItem: Repository,
+            newItem: Repository): Boolean = oldItem.id == newItem.id
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoryViewHolder {
