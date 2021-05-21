@@ -7,4 +7,6 @@
 
     <string name="api_status_success">SUCCESS</string>
     <string name="api_status_running">RUNNING</string>
+    <string name="placeholder">placeholder</string>
+    <string name="language">Language</string>
 </resources>

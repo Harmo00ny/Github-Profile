@@ -36,24 +36,20 @@ class ProfileViewModel(private val githubApi: GithubApi) : ViewModel(), Lifecycl
     private fun fetchProfile() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                fetchProfileResponse()
+                _loadingState.postValue(LoadingState.LOADING)
+                val response = githubApi.user()
+                if (response.isSuccessful) {
+                    _data.postValue(response.body())
+                    _loadingState.postValue(LoadingState.LOADED)
+                    setUiStateSuccessful()
+                } else {
+                    _loadingState.postValue(LoadingState.error(response.message()))
+                    setUiStateFails()
+                }
             } catch (e: Exception) {
                 _loadingState.postValue(LoadingState.error(e.message))
                 setUiStateFails()
             }
-        }
-    }
-
-    private suspend fun fetchProfileResponse() {
-        _loadingState.postValue(LoadingState.LOADING)
-        val response = githubApi.user()
-        if (response.isSuccessful) {
-            _data.postValue(response.body())
-            _loadingState.postValue(LoadingState.LOADED)
-            setUiStateSuccessful()
-        } else {
-            _loadingState.postValue(LoadingState.error(response.message()))
-            setUiStateFails()
         }
     }
 

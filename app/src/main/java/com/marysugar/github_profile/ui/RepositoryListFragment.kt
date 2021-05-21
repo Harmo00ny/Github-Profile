@@ -1,6 +1,7 @@
 package com.marysugar.github_profile.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,6 +42,7 @@ class RepositoryListFragment : Fragment() {
 
         repositoryListViewModel.let {
             it.data.observe(this, { list ->
+                Log.d(TAG, list.toString())
                 list.let(repositoryListAdapter::submitList)
             })
             it.progressVisibility.observe(this, { visibility ->
