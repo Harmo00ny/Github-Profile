@@ -23,24 +23,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        setCurrentFragment(ProfileFragment(), ProfileFragment.TAG)
+        setFragment(ProfileFragment(), ProfileFragment.TAG)
 
         binding.bottomNavigationView.setOnNavigationItemSelectedListener {
             when(it.itemId) {
                 R.id.profile -> {
-                    setCurrentFragment(ProfileFragment(), ProfileFragment.TAG)
+                    setFragment(ProfileFragment(), ProfileFragment.TAG)
                     binding.toolbar.title = mainViewModel.toolbarTitleProfile
                 }
                 R.id.repository -> {
-                    setCurrentFragment(RepositoryListFragment(), RepositoryListFragment.TAG)
+                    setFragment(RepositoryListFragment(), RepositoryListFragment.TAG)
                     binding.toolbar.title = mainViewModel.toolbarTitleRepository
                 }
             }
             true
         }
     }
-
-    private fun setCurrentFragment(fragment: Fragment, tag: String) {
+    private fun setFragment(fragment: Fragment, tag: String) {
         val currentFragment = supportFragmentManager.findFragmentByTag(tag)
         // 既に同じフラグメントが表示されている場合replaceしない
         if (currentFragment != null && currentFragment.isVisible) {
@@ -51,6 +50,21 @@ class MainActivity : AppCompatActivity() {
                 commit()
             }
         }
+    }
+
+    fun setContentFragment(fragment: Fragment, tag: String) {
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportFragmentManager.beginTransaction().apply {
+            addToBackStack(tag)
+            replace(R.id.container, fragment, tag)
+            commit()
+        }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        supportFragmentManager.popBackStack()
+        return true
     }
 
     companion object {

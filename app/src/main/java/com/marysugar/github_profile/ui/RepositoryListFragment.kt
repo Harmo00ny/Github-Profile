@@ -62,6 +62,7 @@ class RepositoryListFragment : Fragment() {
 
     private fun repositoryClicked(repository : Repository) {
         Log.d(TAG, repository.id.toString())
+        (activity as MainActivity).setContentFragment(ContentFragment(), ContentFragment.TAG)
     }
 
     companion object {
