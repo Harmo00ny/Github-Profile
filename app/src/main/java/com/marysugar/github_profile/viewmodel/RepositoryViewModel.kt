@@ -11,7 +11,7 @@ import com.marysugar.github_profile.model.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class RepositoryListViewModel(private val githubApi: GithubApi) : ViewModel() {
+class RepositoryViewModel(private val githubApi: GithubApi) : ViewModel() {
     /**
      * LiveData
      */

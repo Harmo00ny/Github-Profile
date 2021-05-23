@@ -8,16 +8,16 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.marysugar.github_profile.R
-import com.marysugar.github_profile.databinding.FragmentRepositoryBinding
+import com.marysugar.github_profile.databinding.FragmentRepositoryListBinding
 import com.marysugar.github_profile.model.Repository
 import com.marysugar.github_profile.ui.adapter.RepositoryListAdapter
 import com.marysugar.github_profile.util.ItemMarginDecoration
-import com.marysugar.github_profile.viewmodel.RepositoryListViewModel
+import com.marysugar.github_profile.viewmodel.RepositoryViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RepositoryListFragment : Fragment() {
-    private val repositoryListViewModel: RepositoryListViewModel by viewModel()
-    private lateinit var binding: FragmentRepositoryBinding
+    private val repositoryViewModel: RepositoryViewModel by viewModel()
+    private lateinit var binding: FragmentRepositoryListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,7 +25,7 @@ class RepositoryListFragment : Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.fragment_repository,
+            R.layout.fragment_repository_list,
             container,
             false
         )
@@ -49,7 +49,7 @@ class RepositoryListFragment : Fragment() {
         )
         binding.adapter = repositoryListAdapter
 
-        repositoryListViewModel.let {
+        repositoryViewModel.let {
             it.data.observe(this, { list ->
                 Log.d(TAG, list.toString())
                 list.let(repositoryListAdapter::submitList)
@@ -62,7 +62,7 @@ class RepositoryListFragment : Fragment() {
 
     private fun repositoryClicked(repository : Repository) {
         Log.d(TAG, repository.id.toString())
-        (activity as MainActivity).setContentFragment(ContentFragment(), ContentFragment.TAG)
+        (activity as MainActivity).setContentFragment(RepositoryFragment(), RepositoryFragment.TAG)
     }
 
     companion object {
