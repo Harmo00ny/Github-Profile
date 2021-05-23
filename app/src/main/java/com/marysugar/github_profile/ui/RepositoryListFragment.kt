@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.marysugar.github_profile.R
 import com.marysugar.github_profile.databinding.FragmentRepositoryBinding
+import com.marysugar.github_profile.model.Repository
 import com.marysugar.github_profile.ui.adapter.RepositoryListAdapter
 import com.marysugar.github_profile.util.ItemMarginDecoration
 import com.marysugar.github_profile.viewmodel.RepositoryListViewModel
@@ -38,7 +39,9 @@ class RepositoryListFragment : Fragment() {
     }
 
     private fun setupUI() {
-        val repositoryListAdapter = RepositoryListAdapter()
+        val repositoryListAdapter = RepositoryListAdapter {
+                repository: Repository -> repositoryClicked(repository)
+        }
         val itemMargin = resources.getDimensionPixelOffset(R.dimen.repository_margin)
 
         binding.recyclerView.addItemDecoration(
@@ -55,6 +58,10 @@ class RepositoryListFragment : Fragment() {
                 binding.progressBar.visibility = visibility
             })
         }
+    }
+
+    private fun repositoryClicked(repository : Repository) {
+        Log.d(TAG, repository.id.toString())
     }
 
     companion object {

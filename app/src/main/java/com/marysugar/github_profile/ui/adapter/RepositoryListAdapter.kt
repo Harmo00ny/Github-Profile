@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.marysugar.github_profile.databinding.ItemRepositoryBinding
 import com.marysugar.github_profile.model.Repository
 
-class RepositoryListAdapter
+class RepositoryListAdapter(val listener: (Repository) -> Unit)
     : ListAdapter<Repository, RepositoryListAdapter.RepositoryViewHolder>(Companion) {
 
     class RepositoryViewHolder(val binding: ItemRepositoryBinding) : RecyclerView.ViewHolder(binding.root)
@@ -33,5 +33,8 @@ class RepositoryListAdapter
         val currentRepository = getItem(position)
         holder.binding.repository = currentRepository
         holder.binding.executePendingBindings()
+        holder.binding.parent.setOnClickListener {
+            listener(currentRepository)
+        }
     }
 }
