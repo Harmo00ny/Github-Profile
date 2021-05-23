@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.marysugar.github_profile.R
 import com.marysugar.github_profile.databinding.FragmentRepositoryBinding
 import com.marysugar.github_profile.ui.adapter.RepositoryListAdapter
+import com.marysugar.github_profile.util.ItemMarginDecoration
 import com.marysugar.github_profile.viewmodel.RepositoryListViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -38,6 +39,11 @@ class RepositoryListFragment : Fragment() {
 
     private fun setupUI() {
         val repositoryListAdapter = RepositoryListAdapter()
+        val itemMargin = resources.getDimensionPixelOffset(R.dimen.repository_margin)
+
+        binding.recyclerView.addItemDecoration(
+            ItemMarginDecoration(itemMargin)
+        )
         binding.adapter = repositoryListAdapter
 
         repositoryListViewModel.let {

@@ -3,8 +3,8 @@ package com.marysugar.github_profile.util
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.marysugar.github_profile.R
+import com.marysugar.github_profile.model.Languages
 import com.squareup.picasso.Picasso
-import java.io.File
 
 object UIBindingAdapter {
     @JvmStatic
@@ -22,11 +22,11 @@ object UIBindingAdapter {
     @BindingAdapter("setLanguageImg")
     fun ImageView.setLanguageImg(language: String) {
         when (language) {
-            "Kotlin" -> {
+            Languages.Kotlin.toString()-> {
                 val resource = R.drawable.ic_kotlin
                 this.setImageResource(resource)
             }
-            "Python" -> {
+            Languages.Python.toString() -> {
                 val resource = R.drawable.ic_icons8_python
                 this.setImageResource(resource)
             }
