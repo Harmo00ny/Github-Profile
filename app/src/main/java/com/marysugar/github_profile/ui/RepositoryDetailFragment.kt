@@ -41,10 +41,16 @@ class RepositoryDetailFragment : Fragment() {
 
     private fun setupRepositoryDetail() {
         viewModel.fetchRepositoryDetail(commonViewModel.repositoryName)
-        viewModel.let {
-            it.repositoryDetail.observe(this, { detail ->
-                binding.repositoryDetail = detail
-//                binding.parent.visibility = View.VISIBLE
+        viewModel.let { vm ->
+            vm.repositoryDetail.observe(this, {
+                binding.repositoryDetail = it
+            })
+
+            vm.layoutVisibility.observe(this, {
+                binding.layout.visibility = it
+            })
+            vm.progressVisibility.observe(this, {
+                binding.progressBar.visibility = it
             })
         }
     }

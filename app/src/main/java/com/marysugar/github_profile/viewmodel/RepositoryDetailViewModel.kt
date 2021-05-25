@@ -1,5 +1,6 @@
 package com.marysugar.github_profile.viewmodel
 
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,6 +21,18 @@ class RepositoryDetailViewModel(private val githubApi: GithubApi) : ViewModel() 
     val repositoryDetail: LiveData<RepositoryDetail>
         get() = _repositoryDetail
 
+    private val _layoutVisibility = MutableLiveData<Int>()
+    val layoutVisibility: LiveData<Int>
+        get() = _layoutVisibility
+
+    private val _progressVisibility = MutableLiveData<Int>()
+    val progressVisibility: LiveData<Int>
+        get() = _progressVisibility
+
+    init {
+        initUiState()
+    }
+
     fun fetchRepositoryDetail(repositoryName: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -29,18 +42,33 @@ class RepositoryDetailViewModel(private val githubApi: GithubApi) : ViewModel() 
                     _repositoryDetail.postValue(response.body())
                     _loading.postValue(LoadingState.LOADED)
 
-//                    setUiStateSuccessful()
+                    setUiStateSuccessful()
                 } else {
                     _loading.postValue(LoadingState.error(response.message()))
 
-//                    setUiStateFails()
+                    setUiStateFails()
                 }
 
             } catch (e: Exception) {
                 _loading.postValue(LoadingState.error(e.message))
 
-//                setUiStateFails()
+                setUiStateFails()
             }
         }
+    }
+
+    private fun initUiState() {
+        _layoutVisibility.postValue(View.INVISIBLE)
+        _progressVisibility.postValue(View.VISIBLE)
+    }
+
+    private fun setUiStateSuccessful() {
+        _layoutVisibility.postValue(View.VISIBLE)
+        _progressVisibility.postValue(View.INVISIBLE)
+    }
+
+    private fun setUiStateFails() {
+        _layoutVisibility.postValue(View.INVISIBLE)
+        _progressVisibility.postValue(View.INVISIBLE)
     }
 }
