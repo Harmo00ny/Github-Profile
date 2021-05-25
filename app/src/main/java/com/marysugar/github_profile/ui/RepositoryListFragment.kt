@@ -45,6 +45,7 @@ class RepositoryListFragment : Fragment() {
     }
 
     private fun setupUI() {
+        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
         val repositoryListAdapter = RepositoryListAdapter {
                 repository: Repository -> repositoryClicked(repository)
         }

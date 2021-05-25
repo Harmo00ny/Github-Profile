@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun changeAppearanceToolbar() {
+    private fun changeAppearanceToolbar() {
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         binding.toolbar.title = viewModel.toolbarTitleRepository
     }
