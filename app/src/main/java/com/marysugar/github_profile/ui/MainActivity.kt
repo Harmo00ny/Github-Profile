@@ -8,12 +8,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.marysugar.github_profile.R
 import com.marysugar.github_profile.databinding.ActivityMainBinding
-import com.marysugar.github_profile.viewmodel.MainViewModel
+import com.marysugar.github_profile.viewmodel.CommonViewModel
 
 
 class MainActivity : AppCompatActivity() {
 
-    private val mainViewModel by viewModels<MainViewModel>()
+    private val viewModel by viewModels<CommonViewModel>()
     private val binding by lazy {
         DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
     }
@@ -29,11 +29,11 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId) {
                 R.id.profile -> {
                     setFragment(ProfileFragment(), ProfileFragment.TAG)
-                    binding.toolbar.title = mainViewModel.toolbarTitleProfile
+                    binding.toolbar.title = viewModel.toolbarTitleProfile
                 }
                 R.id.repository -> {
                     setFragment(RepositoryListFragment(), RepositoryListFragment.TAG)
-                    binding.toolbar.title = mainViewModel.toolbarTitleRepository
+                    binding.toolbar.title = viewModel.toolbarTitleRepository
                 }
             }
             true

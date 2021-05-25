@@ -7,16 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.marysugar.github_profile.R
 import com.marysugar.github_profile.databinding.FragmentRepositoryListBinding
 import com.marysugar.github_profile.model.Repository
 import com.marysugar.github_profile.ui.adapter.RepositoryListAdapter
 import com.marysugar.github_profile.util.ItemMarginDecoration
+import com.marysugar.github_profile.viewmodel.CommonViewModel
 import com.marysugar.github_profile.viewmodel.RepositoryViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RepositoryListFragment : Fragment() {
-    private val repositoryViewModel: RepositoryViewModel by viewModel()
+    private val commonViewModel: CommonViewModel by viewModels(
+        ownerProducer = { requireActivity() }
+    )
+    private val viewModel: RepositoryViewModel by viewModel()
     private lateinit var binding: FragmentRepositoryListBinding
 
     override fun onCreateView(
@@ -49,7 +54,7 @@ class RepositoryListFragment : Fragment() {
         )
         binding.adapter = repositoryListAdapter
 
-        repositoryViewModel.let {
+        viewModel.let {
             it.data.observe(this, { list ->
                 Log.d(TAG, list.toString())
                 list.let(repositoryListAdapter::submitList)
@@ -62,7 +67,8 @@ class RepositoryListFragment : Fragment() {
 
     private fun repositoryClicked(repository : Repository) {
         Log.d(TAG, repository.id.toString())
-        (activity as MainActivity).setContentFragment(RepositoryFragment(), RepositoryFragment.TAG)
+        commonViewModel.repositoryName = repository.name
+        (activity as MainActivity).setContentFragment(RepositoryDetailFragment(), RepositoryDetailFragment.TAG)
     }
 
     companion object {

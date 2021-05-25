@@ -6,6 +6,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.marysugar.github_profile.api.GithubApi
 import com.marysugar.github_profile.viewmodel.ProfileViewModel
+import com.marysugar.github_profile.viewmodel.RepositoryDetailViewModel
 import com.marysugar.github_profile.viewmodel.RepositoryViewModel
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -58,4 +59,5 @@ val retrofitServiceModule = module {
 val viewModelModule = module {
     viewModel { ProfileViewModel(get()) }
     viewModel { RepositoryViewModel(get()) }
+    viewModel { RepositoryDetailViewModel(get()) }
 }
