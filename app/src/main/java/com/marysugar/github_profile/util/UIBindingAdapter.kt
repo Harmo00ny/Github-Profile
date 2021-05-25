@@ -54,6 +54,6 @@ object UIBindingAdapter {
         }
     }
 
-    const val TAG = "UIBindingAdapter"
+    private const val TAG = "UIBindingAdapter"
 }
 

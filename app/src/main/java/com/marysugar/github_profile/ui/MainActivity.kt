@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun setFragment(fragment: Fragment, tag: String) {
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
         val currentFragment = supportFragmentManager.findFragmentByTag(tag)
         // 既に同じフラグメントが表示されている場合replaceしない
         if (currentFragment != null && currentFragment.isVisible) {
@@ -53,6 +54,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setContentFragment(fragment: Fragment, tag: String) {
+        binding.toolbar.title = viewModel.repositoryName
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportFragmentManager.beginTransaction().apply {
             addToBackStack(tag)
@@ -62,6 +64,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
+        binding.toolbar.title = viewModel.toolbarTitleRepository
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         supportFragmentManager.popBackStack()
         return true
