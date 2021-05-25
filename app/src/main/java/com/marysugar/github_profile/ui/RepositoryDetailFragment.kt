@@ -13,6 +13,7 @@ import com.marysugar.github_profile.viewmodel.CommonViewModel
 import com.marysugar.github_profile.viewmodel.RepositoryDetailViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+
 class RepositoryDetailFragment : Fragment() {
     private val commonViewModel: CommonViewModel by viewModels(
         ownerProducer = { requireActivity() }
@@ -51,6 +52,9 @@ class RepositoryDetailFragment : Fragment() {
             })
             vm.progressVisibility.observe(this, {
                 binding.progressBar.visibility = it
+            })
+            vm.readme.observe(this, {
+                binding.tvDescription.text = it
             })
         }
     }

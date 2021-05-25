@@ -17,6 +17,7 @@ import com.marysugar.github_profile.viewmodel.CommonViewModel
 import com.marysugar.github_profile.viewmodel.RepositoryViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+
 class RepositoryListFragment : Fragment() {
     private val commonViewModel: CommonViewModel by viewModels(
         ownerProducer = { requireActivity() }
@@ -68,7 +69,7 @@ class RepositoryListFragment : Fragment() {
     private fun repositoryClicked(repository : Repository) {
         Log.d(TAG, repository.id.toString())
         commonViewModel.repositoryName = repository.name
-        (activity as MainActivity).setContentFragment(RepositoryDetailFragment(), RepositoryDetailFragment.TAG)
+        (activity as MainActivity).setRepositoryDetailFragment(RepositoryDetailFragment(), RepositoryDetailFragment.TAG)
     }
 
     companion object {

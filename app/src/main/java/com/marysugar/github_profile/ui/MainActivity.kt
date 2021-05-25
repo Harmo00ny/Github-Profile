@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.marysugar.github_profile.R
 import com.marysugar.github_profile.databinding.ActivityMainBinding
 import com.marysugar.github_profile.viewmodel.CommonViewModel
+import java.lang.ref.WeakReference
 
 
 class MainActivity : AppCompatActivity() {
@@ -22,22 +23,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
-
         setFragment(ProfileFragment(), ProfileFragment.TAG)
-
-        binding.bottomNavigationView.setOnNavigationItemSelectedListener {
-            when(it.itemId) {
-                R.id.profile -> {
-                    setFragment(ProfileFragment(), ProfileFragment.TAG)
-                    binding.toolbar.title = viewModel.toolbarTitleProfile
-                }
-                R.id.repository -> {
-                    setFragment(RepositoryListFragment(), RepositoryListFragment.TAG)
-                    binding.toolbar.title = viewModel.toolbarTitleRepository
-                }
-            }
-            true
-        }
+        setEvent()
     }
     private fun setFragment(fragment: Fragment, tag: String) {
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
@@ -53,7 +40,28 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun setContentFragment(fragment: Fragment, tag: String) {
+    private fun setEvent() {
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener {
+            when(it.itemId) {
+                R.id.profile -> {
+                    setFragment(ProfileFragment(), ProfileFragment.TAG)
+                    binding.toolbar.title = viewModel.toolbarTitleProfile
+                }
+                R.id.repository -> {
+                    setFragment(RepositoryListFragment(), RepositoryListFragment.TAG)
+                    binding.toolbar.title = viewModel.toolbarTitleRepository
+                }
+            }
+            true
+        }
+
+        binding.toolbar.setNavigationOnClickListener {
+            changeAppearanceToolbar()
+            onBackPressed()
+        }
+    }
+
+    fun setRepositoryDetailFragment(fragment: Fragment, tag: String) {
         binding.toolbar.title = viewModel.repositoryName
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportFragmentManager.beginTransaction().apply {
@@ -63,11 +71,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        binding.toolbar.title = viewModel.toolbarTitleRepository
+    fun changeAppearanceToolbar() {
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
-        supportFragmentManager.popBackStack()
-        return true
+        binding.toolbar.title = viewModel.toolbarTitleRepository
     }
 
     companion object {
