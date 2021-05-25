@@ -9,4 +9,6 @@
     <string name="api_status_running">RUNNING</string>
     <string name="placeholder">placeholder</string>
     <string name="language">Language</string>
+
+    <string name="created_at">created at :</string>
 </resources>

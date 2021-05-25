@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -9,17 +10,30 @@
 
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.ContentFragment">
+        tools:context=".ui.ContentFragment"
+        android:visibility="invisible">
 
-        <!-- TODO: Update blank fragment layout -->
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/created_at"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/tv_created_at"
-            android:text="@{repositoryDetail.created_at}"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:convertDate="@{repositoryDetail.updated_at}"
+            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/placeholder" />
 
-    </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

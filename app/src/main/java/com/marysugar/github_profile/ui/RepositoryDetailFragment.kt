@@ -44,6 +44,7 @@ class RepositoryDetailFragment : Fragment() {
         viewModel.let {
             it.repositoryDetail.observe(this, { detail ->
                 binding.repositoryDetail = detail
+//                binding.parent.visibility = View.VISIBLE
             })
         }
     }
