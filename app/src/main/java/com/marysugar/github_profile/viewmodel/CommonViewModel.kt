@@ -1,5 +1,6 @@
 package com.marysugar.github_profile.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class CommonViewModel : ViewModel() {
@@ -7,4 +8,9 @@ class CommonViewModel : ViewModel() {
     val toolbarTitleRepository = "Repository"
 
     var repositoryName = ""
+
+    val currentFragmentTag: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
+
 }

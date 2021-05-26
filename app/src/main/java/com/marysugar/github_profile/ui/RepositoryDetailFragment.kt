@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import com.marysugar.github_profile.R
 import com.marysugar.github_profile.databinding.FragmentRepositoryDetailBinding
 import com.marysugar.github_profile.viewmodel.CommonViewModel
@@ -15,11 +15,14 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class RepositoryDetailFragment : Fragment() {
-    private val commonViewModel: CommonViewModel by viewModels(
-        ownerProducer = { requireActivity() }
-    )
+    private val commonViewModel by activityViewModels<CommonViewModel>()
     private val viewModel: RepositoryDetailViewModel by viewModel()
     private lateinit var binding: FragmentRepositoryDetailBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        commonViewModel.currentFragmentTag.value = TAG
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

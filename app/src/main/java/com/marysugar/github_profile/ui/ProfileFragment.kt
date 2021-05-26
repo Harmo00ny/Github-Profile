@@ -1,22 +1,29 @@
 package com.marysugar.github_profile.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.marysugar.github_profile.R
 import com.marysugar.github_profile.databinding.FragmentProfileBinding
 import com.marysugar.github_profile.model.LoadingState
+import com.marysugar.github_profile.viewmodel.CommonViewModel
 import com.marysugar.github_profile.viewmodel.ProfileViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProfileFragment : Fragment() {
+    private val commonViewModel by activityViewModels<CommonViewModel>()
     private val profileViewModel: ProfileViewModel by viewModel()
     private lateinit var binding: FragmentProfileBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        commonViewModel.currentFragmentTag.value = TAG
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -4,15 +4,15 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.marysugar.github_profile.R
 import com.marysugar.github_profile.databinding.ActivityMainBinding
 import com.marysugar.github_profile.viewmodel.CommonViewModel
-import java.lang.ref.WeakReference
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), RepositoryListFragment.ActivityCallback {
 
     private val viewModel by viewModels<CommonViewModel>()
     private val binding by lazy {
@@ -25,9 +25,11 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         setFragment(ProfileFragment(), ProfileFragment.TAG)
         setEvent()
+        setObserver()
+
+        viewModel.currentFragmentTag.value = TAG
     }
     private fun setFragment(fragment: Fragment, tag: String) {
-        supportActionBar?.setDisplayHomeAsUpEnabled(false)
         val currentFragment = supportFragmentManager.findFragmentByTag(tag)
         // 既に同じフラグメントが表示されている場合replaceしない
         if (currentFragment != null && currentFragment.isVisible) {
@@ -38,6 +40,44 @@ class MainActivity : AppCompatActivity() {
                 commit()
             }
         }
+    }
+
+    override fun onRepositoryClicked() {
+        Log.d(TAG, "RepositoryClicked")
+        binding.toolbar.title = viewModel.repositoryName
+        setRepositoryDetailFragment()
+    }
+
+    private fun setRepositoryDetailFragment() {
+        val fragment = RepositoryDetailFragment()
+        supportFragmentManager.beginTransaction().apply {
+            addToBackStack(RepositoryDetailFragment.TAG)
+            replace(R.id.container, fragment, RepositoryDetailFragment.TAG)
+            commit()
+        }
+    }
+
+    private fun setObserver() {
+        viewModel.currentFragmentTag.observe(this, {
+            when(it) {
+                ProfileFragment.TAG -> {
+                    supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                    binding.bottomNavigationView.isVisible = true
+                    Log.d(TAG, "ProfileFragment")
+                }
+                RepositoryListFragment.TAG -> {
+                    supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                    binding.toolbar.title = viewModel.toolbarTitleRepository
+                    binding.bottomNavigationView.isVisible = true
+                    Log.d(TAG, "RepositoryListFragment")
+                }
+                RepositoryDetailFragment.TAG -> {
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                    binding.bottomNavigationView.isVisible = false
+                    Log.d(TAG, "RepositoryDetailFragment")
+                }
+            }
+        })
     }
 
     private fun setEvent() {
@@ -58,16 +98,6 @@ class MainActivity : AppCompatActivity() {
         binding.toolbar.setNavigationOnClickListener {
             changeAppearanceToolbar()
             onBackPressed()
-        }
-    }
-
-    fun setRepositoryDetailFragment(fragment: Fragment, tag: String) {
-        binding.toolbar.title = viewModel.repositoryName
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportFragmentManager.beginTransaction().apply {
-            addToBackStack(tag)
-            replace(R.id.container, fragment, tag)
-            commit()
         }
     }
 
