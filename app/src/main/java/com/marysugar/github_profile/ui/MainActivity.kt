@@ -57,6 +57,9 @@ class MainActivity : AppCompatActivity(), RepositoryListFragment.ActivityCallbac
     }
 
     private fun setObserver() {
+        /**
+         * 現在表示中のフラグメントに応じてViewを変更する処理
+         */
         viewModel.currentFragmentTag.observe(this, {
             when(it) {
                 ProfileFragment.TAG -> {

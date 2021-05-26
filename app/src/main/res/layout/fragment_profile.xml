@@ -25,9 +25,11 @@
             android:id="@+id/tv_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:text="@{user.login}"
+            app:layout_constraintBottom_toBottomOf="@+id/cardView"
             app:layout_constraintStart_toEndOf="@+id/cardView"
-            app:layout_constraintTop_toBottomOf="@+id/progressBar"
+            app:layout_constraintTop_toTopOf="@+id/cardView"
             tools:text="@string/app_name" />
 
         <ProgressBar
