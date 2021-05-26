@@ -17,7 +17,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProfileFragment : Fragment() {
     private val commonViewModel by activityViewModels<CommonViewModel>()
-    private val profileViewModel: ProfileViewModel by viewModel()
+    private val viewModel: ProfileViewModel by viewModel()
     private lateinit var binding: FragmentProfileBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +45,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setupProfile() {
-        profileViewModel.let {
+        viewModel.let {
             it.data.observe(this, { user ->
                 binding.user = user
             })

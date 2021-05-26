@@ -44,7 +44,6 @@ class MainActivity : AppCompatActivity(), RepositoryListFragment.ActivityCallbac
 
     override fun onRepositoryClicked() {
         Log.d(TAG, "RepositoryClicked")
-        binding.toolbar.title = viewModel.repositoryName
         setRepositoryDetailFragment()
     }
 
@@ -62,6 +61,7 @@ class MainActivity : AppCompatActivity(), RepositoryListFragment.ActivityCallbac
             when(it) {
                 ProfileFragment.TAG -> {
                     supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                    binding.toolbar.title = viewModel.toolbarTitleProfile
                     binding.bottomNavigationView.isVisible = true
                     Log.d(TAG, "ProfileFragment")
                 }
@@ -73,6 +73,7 @@ class MainActivity : AppCompatActivity(), RepositoryListFragment.ActivityCallbac
                 }
                 RepositoryDetailFragment.TAG -> {
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                    binding.toolbar.title = viewModel.repositoryName
                     binding.bottomNavigationView.isVisible = false
                     Log.d(TAG, "RepositoryDetailFragment")
                 }
@@ -85,25 +86,17 @@ class MainActivity : AppCompatActivity(), RepositoryListFragment.ActivityCallbac
             when(it.itemId) {
                 R.id.profile -> {
                     setFragment(ProfileFragment(), ProfileFragment.TAG)
-                    binding.toolbar.title = viewModel.toolbarTitleProfile
                 }
                 R.id.repository -> {
                     setFragment(RepositoryListFragment(), RepositoryListFragment.TAG)
-                    binding.toolbar.title = viewModel.toolbarTitleRepository
                 }
             }
             true
         }
 
         binding.toolbar.setNavigationOnClickListener {
-            changeAppearanceToolbar()
             onBackPressed()
         }
-    }
-
-    private fun changeAppearanceToolbar() {
-        supportActionBar?.setDisplayHomeAsUpEnabled(false)
-        binding.toolbar.title = viewModel.toolbarTitleRepository
     }
 
     companion object {

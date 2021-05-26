@@ -48,8 +48,8 @@ class RepositoryDetailViewModel(private val githubApi: GithubApi) : ViewModel() 
                 _loading.postValue(LoadingState.LOADING)
                 val response = githubApi.repo(repositoryName)
                 if (response.isSuccessful) {
-                    _repositoryDetail.postValue(response.body())
                     _loading.postValue(LoadingState.LOADED)
+                    _repositoryDetail.postValue(response.body())
 
                     setUiStateSuccessful()
                 } else {
