@@ -6,11 +6,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.marysugar.github_profile.R
 import com.marysugar.github_profile.databinding.FragmentRepositoryListBinding
+import com.marysugar.github_profile.model.LoadingState
 import com.marysugar.github_profile.model.Repository
 import com.marysugar.github_profile.ui.adapter.RepositoryListAdapter
 import com.marysugar.github_profile.util.ItemMarginDecoration
@@ -24,7 +26,6 @@ class RepositoryListFragment : Fragment() {
     private val commonViewModel by activityViewModels<CommonViewModel>()
     private val viewModel: RepositoryViewModel by viewModel()
     private lateinit var binding: FragmentRepositoryListBinding
-
     private lateinit var callback: ActivityCallback
 
     interface ActivityCallback {
@@ -38,11 +39,6 @@ class RepositoryListFragment : Fragment() {
         } catch (e: ClassCastException) {
             Log.e(TAG, e.toString())
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        commonViewModel.currentFragmentTag.value = TAG
     }
 
     override fun onCreateView(
@@ -59,9 +55,10 @@ class RepositoryListFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onStart() {
+        super.onStart()
         setupUI()
+        commonViewModel.currentFragmentTag.value = TAG
     }
 
     override fun onResume() {
@@ -70,24 +67,26 @@ class RepositoryListFragment : Fragment() {
     }
 
     private fun setupUI() {
-        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
-        val repositoryListAdapter = RepositoryListAdapter {
-                repository: Repository -> repositoryClicked(repository)
-        }
-        val itemMargin = resources.getDimensionPixelOffset(R.dimen.repository_margin)
+        val adapter = RepositoryListAdapter { repository: Repository -> repositoryClicked(repository) }
+        binding.adapter = adapter
+
+        val margin = resources.getDimensionPixelOffset(R.dimen.repository_margin)
 
         binding.recyclerView.addItemDecoration(
-            ItemMarginDecoration(itemMargin)
+            ItemMarginDecoration(margin)
         )
-        binding.adapter = repositoryListAdapter
 
-        viewModel.let {
-            it.data.observe(this, { list ->
+        viewModel.let { vm ->
+            vm.data.observe(viewLifecycleOwner, { list ->
                 Log.d(TAG, list.toString())
-                list.let(repositoryListAdapter::submitList)
+                list.let(adapter::submitList)
             })
-            it.progressVisibility.observe(this, { visibility ->
-                binding.progressBar.visibility = visibility
+            vm.loading.observe(viewLifecycleOwner, { loading ->
+                binding.loading = loading
+
+                if (loading.status == LoadingState.Status.FAILED) {
+                    Toast.makeText(context, loading.msg, Toast.LENGTH_LONG).show()
+                }
             })
         }
     }

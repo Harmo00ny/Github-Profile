@@ -57,8 +57,8 @@ object UIBindingAdapter {
     }
 
     @JvmStatic
-    @BindingAdapter("parentViewVisibility")
-    fun View.parentViewVisibility(loading: LoadingState?) {
+    @BindingAdapter("viewVisibility")
+    fun View.viewVisibility(loading: LoadingState?) {
         if (loading != null) {
             Log.d(TAG, loading.toString())
             when (loading.status) {

@@ -20,14 +20,26 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        app:parentViewVisibility="@{loading}"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            app:progressBarVisibility="@{loading}"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
         <TextView
             android:id="@+id/tv_login"
+            app:viewVisibility="@{loading}"
             android:text="@{user.login}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,20 +49,9 @@
             app:layout_constraintTop_toTopOf="@+id/cardView"
             tools:text="@string/app_name" />
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:progressBarVisibility="@{loading}" />
-
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
+            app:viewVisibility="@{loading}"
             android:layout_width="140dp"
             android:layout_height="140dp"
             android:layout_marginStart="8dp"
@@ -61,6 +62,7 @@
 
             <ImageView
                 android:id="@+id/iv_avatar"
+                app:viewVisibility="@{loading}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
