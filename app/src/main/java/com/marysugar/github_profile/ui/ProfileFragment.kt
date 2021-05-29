@@ -20,11 +20,6 @@ class ProfileFragment : Fragment() {
     private val viewModel: ProfileViewModel by viewModel()
     private lateinit var binding: FragmentProfileBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        commonViewModel.currentFragmentTag.value = TAG
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,23 +36,21 @@ class ProfileFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        setupProfile()
+        setupUI()
+
+        commonViewModel.currentFragmentTag.value = TAG
     }
 
-    private fun setupProfile() {
-        viewModel.let {
-            it.data.observe(this, { user ->
+    private fun setupUI() {
+        viewModel.let { vm ->
+            vm.data.observe(this, { user ->
                 binding.user = user
             })
-            it.progressVisibility.observe(this, { visibility ->
-                binding.progressBar.visibility = visibility
-            })
-            it.cardViewVisibility.observe(this, { visibility ->
-                binding.cardView.visibility = visibility
-            })
-            it.loadingState.observe(this, { loadingState ->
-                if (loadingState.status.name == LoadingState.Status.FAILED.toString()) {
-                    Toast.makeText(context,loadingState.msg, Toast.LENGTH_LONG).show()
+            vm.loading.observe(this, { loading ->
+                binding.loading = loading
+                // 通信がFailedのときはエラーメッセージを表示
+                if (loading.status == LoadingState.Status.FAILED) {
+                    Toast.makeText(context, loading.msg, Toast.LENGTH_LONG).show()
                 }
             })
         }

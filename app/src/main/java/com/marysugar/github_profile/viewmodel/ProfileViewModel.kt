@@ -1,6 +1,5 @@
 package com.marysugar.github_profile.viewmodel
 
-import android.view.View
 import androidx.lifecycle.*
 import com.marysugar.github_profile.api.GithubApi
 import com.marysugar.github_profile.model.LoadingState
@@ -12,59 +11,33 @@ class ProfileViewModel(private val githubApi: GithubApi) : ViewModel(), Lifecycl
     /**
      * LiveData
      */
-    private val _loadingState = MutableLiveData<LoadingState>()
-    val loadingState: LiveData<LoadingState>
-        get() = _loadingState
-
     private val _data = MutableLiveData<User>()
     val data: LiveData<User>
         get() = _data
 
-    private val _progressVisibility = MutableLiveData<Int>()
-    val progressVisibility: LiveData<Int>
-        get() = _progressVisibility
-
-    private val _cardViewVisibility = MutableLiveData<Int>()
-    val cardViewVisibility: LiveData<Int>
-        get() = _cardViewVisibility
+    private val _loading = MutableLiveData<LoadingState>()
+    val loading: LiveData<LoadingState>
+        get() = _loading
 
     init {
-        initUiState()
         fetchProfile()
     }
 
     private fun fetchProfile() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                _loadingState.postValue(LoadingState.LOADING)
+                _loading.postValue(LoadingState.LOADING)
                 val response = githubApi.user()
                 if (response.isSuccessful) {
+                    _loading.postValue(LoadingState.LOADED)
                     _data.postValue(response.body())
-                    _loadingState.postValue(LoadingState.LOADED)
-                    setUiStateSuccessful()
                 } else {
-                    _loadingState.postValue(LoadingState.error(response.message()))
-                    setUiStateFails()
+                    _loading.postValue(LoadingState.error(response.message()))
                 }
             } catch (e: Exception) {
-                _loadingState.postValue(LoadingState.error(e.message))
-                setUiStateFails()
+                _loading.postValue(LoadingState.error(e.message))
             }
         }
-    }
-
-    private fun initUiState() {
-        _progressVisibility.postValue(View.VISIBLE)
-        _cardViewVisibility.postValue(View.INVISIBLE)
-    }
-
-    private fun setUiStateSuccessful() {
-        _progressVisibility.postValue(View.INVISIBLE)
-        _cardViewVisibility.postValue(View.VISIBLE)
-    }
-
-    private fun setUiStateFails() {
-        _progressVisibility.postValue(View.INVISIBLE)
     }
 
     companion object {

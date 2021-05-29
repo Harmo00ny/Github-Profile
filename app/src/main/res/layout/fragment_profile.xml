@@ -13,9 +13,14 @@
             name="user"
             type="com.marysugar.github_profile.model.User" />
 
+        <variable
+            name="loading"
+            type="com.marysugar.github_profile.model.LoadingState" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        app:parentViewVisibility="@{loading}"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -23,10 +28,10 @@
 
         <TextView
             android:id="@+id/tv_login"
+            android:text="@{user.login}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="@{user.login}"
             app:layout_constraintBottom_toBottomOf="@+id/cardView"
             app:layout_constraintStart_toEndOf="@+id/cardView"
             app:layout_constraintTop_toTopOf="@+id/cardView"
@@ -35,20 +40,24 @@
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="true"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:progressBarVisibility="@{loading}" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="140dp"
             android:layout_height="140dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
             app:cardCornerRadius="100dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progressBar">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/iv_avatar"

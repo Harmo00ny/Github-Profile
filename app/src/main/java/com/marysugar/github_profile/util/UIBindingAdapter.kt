@@ -2,11 +2,13 @@ package com.marysugar.github_profile.util
 
 import android.annotation.SuppressLint
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.marysugar.github_profile.R
 import com.marysugar.github_profile.model.Languages
+import com.marysugar.github_profile.model.LoadingState
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 
@@ -51,6 +53,44 @@ object UIBindingAdapter {
             val formattedDate: String = outputFormat.format(date!!)
 
             this.text = formattedDate
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("parentViewVisibility")
+    fun View.parentViewVisibility(loading: LoadingState?) {
+        if (loading != null) {
+            Log.d(TAG, loading.toString())
+            when (loading.status) {
+                LoadingState.Status.RUNNING -> {
+                    this.visibility = View.INVISIBLE
+                }
+                LoadingState.Status.SUCCESS -> {
+                    this.visibility = View.VISIBLE
+                }
+                LoadingState.Status.FAILED -> {
+                    this.visibility = View.INVISIBLE
+                }
+            }
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("progressBarVisibility")
+    fun View.progressBarVisibility(loading: LoadingState?) {
+        if (loading != null) {
+            Log.d(TAG, loading.toString())
+            when (loading.status) {
+                LoadingState.Status.RUNNING -> {
+                    this.visibility = View.VISIBLE
+                }
+                LoadingState.Status.SUCCESS -> {
+                    this.visibility = View.INVISIBLE
+                }
+                LoadingState.Status.FAILED -> {
+                    this.visibility = View.INVISIBLE
+                }
+            }
         }
     }
 
