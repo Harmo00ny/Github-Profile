@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.marysugar.github_profile.api.GithubApi
 import com.marysugar.github_profile.model.LoadingState
+import com.marysugar.github_profile.model.Readme
 import com.marysugar.github_profile.model.RepositoryDetail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,49 +21,35 @@ class RepositoryDetailViewModel(private val githubApi: GithubApi) : ViewModel() 
     val loading: LiveData<LoadingState>
         get() = _loading
 
-    private val _repositoryDetail = MutableLiveData<RepositoryDetail>()
-    val repositoryDetail: LiveData<RepositoryDetail>
-        get() = _repositoryDetail
-
-    private val _layoutVisibility = MutableLiveData<Int>()
-    val layoutVisibility: LiveData<Int>
-        get() = _layoutVisibility
-
-    private val _progressVisibility = MutableLiveData<Int>()
-    val progressVisibility: LiveData<Int>
-        get() = _progressVisibility
+    private val _data = MutableLiveData<RepositoryDetail>()
+    val data: LiveData<RepositoryDetail>
+        get() = _data
 
     private val _readme = MutableLiveData<String>()
     val readme: LiveData<String>
         get() = _readme
 
-    init {
-        initUiState()
-    }
-
-    fun fetchRepositoryDetail(repositoryName: String) {
+    fun fetch(repositoryName: String) {
         viewModelScope.launch(Dispatchers.IO) {
             // オプショナルとしてReadme.mdを取得
             fetchReadme(repositoryName)
-            try {
-                _loading.postValue(LoadingState.LOADING)
-                val response = githubApi.repo(repositoryName)
-                if (response.isSuccessful) {
-                    _loading.postValue(LoadingState.LOADED)
-                    _repositoryDetail.postValue(response.body())
+            fetchDetail(repositoryName)
+        }
+    }
 
-                    setUiStateSuccessful()
-                } else {
-                    _loading.postValue(LoadingState.error(response.message()))
-
-                    setUiStateFails()
-                }
-
-            } catch (e: Exception) {
-                _loading.postValue(LoadingState.error(e.message))
-
-                setUiStateFails()
+    private suspend fun fetchDetail(repositoryName: String) {
+        try {
+            _loading.postValue(LoadingState.LOADING)
+            val response = githubApi.repo(repositoryName)
+            if (response.isSuccessful) {
+                _loading.postValue(LoadingState.LOADED)
+                _data.postValue(response.body())
+            } else {
+                _loading.postValue(LoadingState.error(response.message()))
             }
+
+        } catch (e: Exception) {
+            _loading.postValue(LoadingState.error(e.message))
         }
     }
 
@@ -76,21 +63,6 @@ class RepositoryDetailViewModel(private val githubApi: GithubApi) : ViewModel() 
         } catch (e: Exception) {
             Log.e(TAG, e.toString())
         }
-    }
-
-    private fun initUiState() {
-        _layoutVisibility.postValue(View.INVISIBLE)
-        _progressVisibility.postValue(View.VISIBLE)
-    }
-
-    private fun setUiStateSuccessful() {
-        _layoutVisibility.postValue(View.VISIBLE)
-        _progressVisibility.postValue(View.INVISIBLE)
-    }
-
-    private fun setUiStateFails() {
-        _layoutVisibility.postValue(View.INVISIBLE)
-        _progressVisibility.postValue(View.INVISIBLE)
     }
 
     companion object {
