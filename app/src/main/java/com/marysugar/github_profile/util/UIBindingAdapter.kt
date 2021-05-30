@@ -25,23 +25,6 @@ object UIBindingAdapter {
         }
     }
 
-    @JvmStatic
-    @BindingAdapter("setLanguageImg")
-    fun ImageView.languageImage(language: String?) {
-        if (language != null) {
-            when (language) {
-                Languages.Kotlin.toString() -> {
-                    val resource = R.drawable.ic_kotlin
-                    this.setImageResource(resource)
-                }
-                Languages.Python.toString() -> {
-                    val resource = R.drawable.ic_icons8_python
-                    this.setImageResource(resource)
-                }
-            }
-        }
-    }
-
     @SuppressLint("SimpleDateFormat")
     @JvmStatic
     @BindingAdapter("convertDate")
