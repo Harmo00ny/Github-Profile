@@ -1,10 +1,10 @@
 package com.marysugar.github_profile.model
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+import com.google.gson.annotations.SerializedName
 
-@Parcelize
 data class RepositoryDetail(
-    val created_at: String,
-    val updated_at: String
-): Parcelable
+    @SerializedName("created_at")
+    val createdAt: String,
+    @SerializedName("updated_at")
+    val updatedAt: String
+)

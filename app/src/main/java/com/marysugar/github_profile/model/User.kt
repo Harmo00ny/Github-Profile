@@ -1,11 +1,10 @@
 package com.marysugar.github_profile.model
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+import com.google.gson.annotations.SerializedName
 
-@Parcelize
 data class User(
     val id: Long,
-    val avatar_url: String,
+    @SerializedName("avatar_url")
+    val avatarUrl: String,
     val login: String
-) : Parcelable
+)
