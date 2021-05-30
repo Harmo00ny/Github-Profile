@@ -42,7 +42,7 @@ class RepositoryDetailFragment : Fragment() {
     }
 
     private fun setupRepositoryDetail() {
-        viewModel.fetch(commonViewModel.repositoryName)
+        viewModel.fetchData(commonViewModel.repositoryName)
         viewModel.let { vm ->
             vm.data.observe(this, {
                 binding.data = it

@@ -8,9 +8,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(private val githubApi: GithubApi) : ViewModel(), LifecycleObserver {
-    /**
-     * LiveData
-     */
     private val _data = MutableLiveData<User>()
     val data: LiveData<User>
         get() = _data

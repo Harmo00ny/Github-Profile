@@ -24,9 +24,8 @@ class MainActivity : AppCompatActivity(), RepositoryListFragment.ActivityCallbac
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         setFragment(ProfileFragment(), ProfileFragment.TAG)
+        setFragmentUI()
         setEvent()
-        setObserver()
-
         viewModel.currentFragmentTag.value = TAG
     }
     private fun setFragment(fragment: Fragment, tag: String) {
@@ -42,24 +41,7 @@ class MainActivity : AppCompatActivity(), RepositoryListFragment.ActivityCallbac
         }
     }
 
-    override fun onRepositoryClicked() {
-        Log.d(TAG, "RepositoryClicked")
-        setRepositoryDetailFragment()
-    }
-
-    private fun setRepositoryDetailFragment() {
-        val fragment = RepositoryDetailFragment()
-        supportFragmentManager.beginTransaction().apply {
-            addToBackStack(RepositoryDetailFragment.TAG)
-            replace(R.id.container, fragment, RepositoryDetailFragment.TAG)
-            commit()
-        }
-    }
-
-    private fun setObserver() {
-        /**
-         * 現在表示中のフラグメントに応じてViewを変更する処理
-         */
+    private fun setFragmentUI() {
         viewModel.currentFragmentTag.observe(this, {
             when(it) {
                 ProfileFragment.TAG -> {
@@ -99,6 +81,23 @@ class MainActivity : AppCompatActivity(), RepositoryListFragment.ActivityCallbac
 
         binding.toolbar.setNavigationOnClickListener {
             onBackPressed()
+        }
+    }
+
+    /**
+     * Callback processes for RepositoryListFragment.
+     */
+    override fun onRepositoryClicked() {
+        Log.d(TAG, "RepositoryClicked")
+        setRepositoryDetailFragment()
+    }
+
+    private fun setRepositoryDetailFragment() {
+        val fragment = RepositoryDetailFragment()
+        supportFragmentManager.beginTransaction().apply {
+            addToBackStack(RepositoryDetailFragment.TAG)
+            replace(R.id.container, fragment, RepositoryDetailFragment.TAG)
+            commit()
         }
     }
 

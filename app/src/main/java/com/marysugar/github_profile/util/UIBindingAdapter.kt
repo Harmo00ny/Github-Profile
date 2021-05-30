@@ -61,16 +61,10 @@ object UIBindingAdapter {
     fun View.viewVisibility(loading: LoadingState?) {
         if (loading != null) {
             Log.d(TAG, loading.toString())
-            when (loading.status) {
-                LoadingState.Status.RUNNING -> {
-                    this.visibility = View.INVISIBLE
-                }
-                LoadingState.Status.SUCCESS -> {
-                    this.visibility = View.VISIBLE
-                }
-                LoadingState.Status.FAILED -> {
-                    this.visibility = View.INVISIBLE
-                }
+            this.visibility = when (loading.status) {
+                LoadingState.Status.RUNNING -> View.INVISIBLE
+                LoadingState.Status.SUCCESS -> View.VISIBLE
+                LoadingState.Status.FAILED -> View.INVISIBLE
             }
         }
     }
@@ -80,16 +74,10 @@ object UIBindingAdapter {
     fun View.progressBarVisibility(loading: LoadingState?) {
         if (loading != null) {
             Log.d(TAG, loading.toString())
-            when (loading.status) {
-                LoadingState.Status.RUNNING -> {
-                    this.visibility = View.VISIBLE
-                }
-                LoadingState.Status.SUCCESS -> {
-                    this.visibility = View.INVISIBLE
-                }
-                LoadingState.Status.FAILED -> {
-                    this.visibility = View.INVISIBLE
-                }
+            this.visibility = when (loading.status) {
+                LoadingState.Status.RUNNING -> View.VISIBLE
+                LoadingState.Status.SUCCESS -> View.INVISIBLE
+                LoadingState.Status.FAILED -> View.INVISIBLE
             }
         }
     }

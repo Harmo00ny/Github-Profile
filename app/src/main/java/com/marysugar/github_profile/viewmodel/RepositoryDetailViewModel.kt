@@ -1,14 +1,12 @@
 package com.marysugar.github_profile.viewmodel
 
 import android.util.Log
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.marysugar.github_profile.api.GithubApi
 import com.marysugar.github_profile.model.LoadingState
-import com.marysugar.github_profile.model.Readme
 import com.marysugar.github_profile.model.RepositoryDetail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,7 +27,7 @@ class RepositoryDetailViewModel(private val githubApi: GithubApi) : ViewModel() 
     val readme: LiveData<String>
         get() = _readme
 
-    fun fetch(repositoryName: String) {
+    fun fetchData(repositoryName: String) {
         viewModelScope.launch(Dispatchers.IO) {
             // オプショナルとしてReadme.mdを取得
             fetchReadme(repositoryName)
