@@ -50,9 +50,10 @@ object UIBindingAdapter {
             val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
             val outputFormat = SimpleDateFormat("yyyy/MM/dd")
             val date = inputFormat.parse(inputDate)
-            val formattedDate: String = outputFormat.format(date!!)
-
-            this.text = formattedDate
+            if (date != null) {
+                val formattedDate = outputFormat.format(date)
+                this.text = formattedDate
+            }
         }
     }
 
