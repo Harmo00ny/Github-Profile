@@ -9,12 +9,12 @@ import retrofit2.http.Path
 
 interface GithubApi {
     //cccaaa0
-    @GET("users/cccaaa0")
+    @GET("users/octocat")
     suspend fun user(): Response<User>
 
-    @GET("users/cccaaa0/repos")
+    @GET("users/octocat/repos")
     suspend fun repos(): Response<List<Repository>>
 
-    @GET("repos/cccaaa0/{repository}")
+    @GET("repos/octocat/{repository}")
     suspend fun repo(@Path("repository") repository: String?): Response<RepositoryDetail>
 }
