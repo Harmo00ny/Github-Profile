@@ -12,10 +12,6 @@
             name="loading"
             type="com.marysugar.github_profile.model.LoadingState" />
 
-        <variable
-            name="vm"
-            type="com.marysugar.github_profile.viewmodel.RepositoryDetailViewModel" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -83,13 +79,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_created_at" />
 
             <TextView
-                android:id="@+id/tv_readme"
-                android:text="@{vm.readme}"
+                android:id="@+id/tv_description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:text="@{data.description}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_updated_at_title" />

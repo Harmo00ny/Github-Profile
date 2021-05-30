@@ -1,6 +1,7 @@
 package com.marysugar.github_profile.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,6 +46,7 @@ class RepositoryDetailFragment : Fragment() {
         viewModel.fetchData(commonViewModel.repositoryName)
         viewModel.let { vm ->
             vm.data.observe(this, {
+                Log.d(TAG, it.toString())
                 binding.data = it
             })
 
@@ -54,10 +56,6 @@ class RepositoryDetailFragment : Fragment() {
                 if (it.status == LoadingState.Status.FAILED) {
                     Toast.makeText(context, it.msg, Toast.LENGTH_LONG).show()
                 }
-            })
-
-            vm.readme.observe(this, {
-                binding.vm = viewModel
             })
         }
     }
