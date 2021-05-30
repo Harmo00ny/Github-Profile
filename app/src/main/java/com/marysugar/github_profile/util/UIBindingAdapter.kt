@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.marysugar.github_profile.R
@@ -15,7 +16,7 @@ import java.text.SimpleDateFormat
 object UIBindingAdapter {
     @JvmStatic
     @BindingAdapter(value = ["setImageUrl"])
-    fun ImageView.bindImageUrl(url: String?) {
+    fun ImageView.image(url: String?) {
         if (url != null && url.isNotBlank()) {
 
             Picasso.get()
@@ -26,7 +27,7 @@ object UIBindingAdapter {
 
     @JvmStatic
     @BindingAdapter("setLanguageImg")
-    fun ImageView.setLanguageImg(language: String?) {
+    fun ImageView.languageImage(language: String?) {
         if (language != null) {
             when (language) {
                 Languages.Kotlin.toString() -> {
@@ -44,7 +45,7 @@ object UIBindingAdapter {
     @SuppressLint("SimpleDateFormat")
     @JvmStatic
     @BindingAdapter("convertDate")
-    fun TextView.convertDate(inputDate: String?) {
+    fun TextView.date(inputDate: String?) {
         if (inputDate != null) {
             Log.d(TAG, inputDate)
             val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
@@ -59,7 +60,7 @@ object UIBindingAdapter {
 
     @JvmStatic
     @BindingAdapter("viewVisibility")
-    fun View.viewVisibility(loading: LoadingState?) {
+    fun View.visibility(loading: LoadingState?) {
         if (loading != null) {
             Log.d(TAG, loading.toString())
             this.visibility = when (loading.status) {
@@ -72,7 +73,7 @@ object UIBindingAdapter {
 
     @JvmStatic
     @BindingAdapter("progressBarVisibility")
-    fun View.progressBarVisibility(loading: LoadingState?) {
+    fun ProgressBar.visibility(loading: LoadingState?) {
         if (loading != null) {
             Log.d(TAG, loading.toString())
             this.visibility = when (loading.status) {
