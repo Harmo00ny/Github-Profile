@@ -43,14 +43,14 @@ class ProfileFragment : Fragment() {
 
     private fun setupUI() {
         viewModel.let { vm ->
-            vm.data.observe(this, { user ->
-                binding.user = user
+            vm.data.observe(this, {
+                binding.user = it
             })
-            vm.loading.observe(this, { loading ->
-                binding.loading = loading
+            vm.loading.observe(this, {
+                binding.loading = it
                 // 通信がFailedのときはエラーメッセージを表示
-                if (loading.status == LoadingState.Status.FAILED) {
-                    Toast.makeText(context, loading.msg, Toast.LENGTH_LONG).show()
+                if (it.status == LoadingState.Status.FAILED) {
+                    Toast.makeText(context, it.msg, Toast.LENGTH_LONG).show()
                 }
             })
         }

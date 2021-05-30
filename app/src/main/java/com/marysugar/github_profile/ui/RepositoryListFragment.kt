@@ -77,15 +77,15 @@ class RepositoryListFragment : Fragment() {
         )
 
         viewModel.let { vm ->
-            vm.data.observe(viewLifecycleOwner, { list ->
-                Log.d(TAG, list.toString())
-                list.let(adapter::submitList)
+            vm.data.observe(viewLifecycleOwner, {
+                Log.d(TAG, it.toString())
+                it.let(adapter::submitList)
             })
-            vm.loading.observe(viewLifecycleOwner, { loading ->
-                binding.loading = loading
+            vm.loading.observe(viewLifecycleOwner, {
+                binding.loading = it
 
-                if (loading.status == LoadingState.Status.FAILED) {
-                    Toast.makeText(context, loading.msg, Toast.LENGTH_LONG).show()
+                if (it.status == LoadingState.Status.FAILED) {
+                    Toast.makeText(context, it.msg, Toast.LENGTH_LONG).show()
                 }
             })
         }
