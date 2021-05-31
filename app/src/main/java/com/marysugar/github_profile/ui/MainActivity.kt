@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         setFragment(ProfileFragment(), ProfileFragment.TAG)
+        setFragment()
         setFragmentUI()
         setEvent()
         viewModel.currentFragmentTag.value = TAG
@@ -38,6 +39,17 @@ class MainActivity : AppCompatActivity() {
                 commit()
             }
         }
+    }
+
+    private fun setFragment() {
+        viewModel.repositoryName.observe(this, {
+            val fragment = RepositoryDetailFragment(it)
+            supportFragmentManager.beginTransaction().apply {
+                addToBackStack(RepositoryDetailFragment.TAG)
+                replace(R.id.container, fragment, RepositoryDetailFragment.TAG)
+                commit()
+            }
+        })
     }
 
     private fun setFragmentUI() {
@@ -61,15 +73,6 @@ class MainActivity : AppCompatActivity() {
                     binding.bottomNavigationView.isVisible = false
                     Log.d(TAG, "RepositoryDetailFragment")
                 }
-            }
-        })
-
-        viewModel.repositoryName.observe(this, {
-            val fragment = RepositoryDetailFragment(it)
-            supportFragmentManager.beginTransaction().apply {
-                addToBackStack(RepositoryDetailFragment.TAG)
-                replace(R.id.container, fragment, RepositoryDetailFragment.TAG)
-                commit()
             }
         })
     }
