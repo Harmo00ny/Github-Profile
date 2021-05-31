@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setFragment() {
         viewModel.repositoryName.observe(this, {
-            val fragment = RepositoryDetailFragment(it)
+            val fragment = RepositoryDetailFragment()
             supportFragmentManager.beginTransaction().apply {
                 addToBackStack(RepositoryDetailFragment.TAG)
                 replace(R.id.container, fragment, RepositoryDetailFragment.TAG)

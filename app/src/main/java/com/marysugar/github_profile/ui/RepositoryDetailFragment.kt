@@ -16,7 +16,7 @@ import com.marysugar.github_profile.viewmodel.CommonViewModel
 import com.marysugar.github_profile.viewmodel.RepositoryDetailViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class RepositoryDetailFragment(private val repositoryName: String) : Fragment() {
+class RepositoryDetailFragment : Fragment() {
     private val commonViewModel by activityViewModels<CommonViewModel>()
     private val viewModel: RepositoryDetailViewModel by viewModel()
     private lateinit var binding: FragmentRepositoryDetailBinding
@@ -42,7 +42,9 @@ class RepositoryDetailFragment(private val repositoryName: String) : Fragment() 
     }
 
     private fun setupRepositoryDetail() {
-        viewModel.fetchData(repositoryName)
+        commonViewModel.repositoryName.observe(this, {
+            viewModel.fetchData(it)
+        })
         viewModel.let { vm ->
             vm.data.observe(this, {
                 Log.d(TAG, it.toString())
