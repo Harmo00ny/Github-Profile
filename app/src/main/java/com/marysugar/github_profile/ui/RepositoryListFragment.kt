@@ -75,7 +75,7 @@ class RepositoryListFragment : Fragment() {
     }
 
     private fun selectRepository(repository : Repository) {
-        commonViewModel.selectRepository(repository.name)
+        commonViewModel.setRepositoryName(repository.name)
     }
 
     companion object {
