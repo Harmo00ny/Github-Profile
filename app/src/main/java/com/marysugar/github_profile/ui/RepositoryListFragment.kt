@@ -1,6 +1,5 @@
 package com.marysugar.github_profile.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,27 +18,11 @@ import com.marysugar.github_profile.util.ItemMarginDecoration
 import com.marysugar.github_profile.viewmodel.CommonViewModel
 import com.marysugar.github_profile.viewmodel.RepositoryViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.lang.ClassCastException
-
 
 class RepositoryListFragment : Fragment() {
     private val commonViewModel by activityViewModels<CommonViewModel>()
     private val viewModel: RepositoryViewModel by viewModel()
     private lateinit var binding: FragmentRepositoryListBinding
-    private lateinit var callback: ActivityCallback
-
-    interface ActivityCallback {
-        fun onRepositoryClicked()
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        try {
-            callback = context as ActivityCallback
-        } catch (e: ClassCastException) {
-            Log.e(TAG, e.toString())
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,7 +50,7 @@ class RepositoryListFragment : Fragment() {
     }
 
     private fun setupUI() {
-        val adapter = RepositoryListAdapter { repository: Repository -> repositoryClicked(repository) }
+        val adapter = RepositoryListAdapter { repository: Repository -> selectRepository(repository) }
         binding.adapter = adapter
 
         val margin = resources.getDimensionPixelOffset(R.dimen.repository_margin)
@@ -91,9 +74,8 @@ class RepositoryListFragment : Fragment() {
         }
     }
 
-    private fun repositoryClicked(repository : Repository) {
-        commonViewModel.repositoryName = repository.name
-        callback.onRepositoryClicked()
+    private fun selectRepository(repository : Repository) {
+        commonViewModel.selectRepository(repository.name)
     }
 
     companion object {

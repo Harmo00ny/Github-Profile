@@ -11,8 +11,7 @@ import com.marysugar.github_profile.R
 import com.marysugar.github_profile.databinding.ActivityMainBinding
 import com.marysugar.github_profile.viewmodel.CommonViewModel
 
-
-class MainActivity : AppCompatActivity(), RepositoryListFragment.ActivityCallback {
+class MainActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<CommonViewModel>()
     private val binding by lazy {
@@ -58,10 +57,19 @@ class MainActivity : AppCompatActivity(), RepositoryListFragment.ActivityCallbac
                 }
                 RepositoryDetailFragment.TAG -> {
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                    binding.toolbar.title = viewModel.repositoryName
+                    binding.toolbar.title = viewModel.repositoryName.value
                     binding.bottomNavigationView.isVisible = false
                     Log.d(TAG, "RepositoryDetailFragment")
                 }
+            }
+        })
+
+        viewModel.repositoryName.observe(this, {
+            val fragment = RepositoryDetailFragment(it)
+            supportFragmentManager.beginTransaction().apply {
+                addToBackStack(RepositoryDetailFragment.TAG)
+                replace(R.id.container, fragment, RepositoryDetailFragment.TAG)
+                commit()
             }
         })
     }
@@ -81,23 +89,6 @@ class MainActivity : AppCompatActivity(), RepositoryListFragment.ActivityCallbac
 
         binding.toolbar.setNavigationOnClickListener {
             onBackPressed()
-        }
-    }
-
-    /**
-     * Callback processes for RepositoryListFragment.
-     */
-    override fun onRepositoryClicked() {
-        Log.d(TAG, "RepositoryClicked")
-        setRepositoryDetailFragment()
-    }
-
-    private fun setRepositoryDetailFragment() {
-        val fragment = RepositoryDetailFragment()
-        supportFragmentManager.beginTransaction().apply {
-            addToBackStack(RepositoryDetailFragment.TAG)
-            replace(R.id.container, fragment, RepositoryDetailFragment.TAG)
-            commit()
         }
     }
 
