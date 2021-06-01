@@ -6,4 +6,4 @@
 - ViewModel
 - LiveData  
 - Coroutines  
-- Koin
+- DI
