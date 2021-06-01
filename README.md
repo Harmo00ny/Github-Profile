@@ -1,2 +1,9 @@
 # Github-Profile
-MVVM,Retrofit2,Coroutine,Gson,Databinding,Koin
+## Architecture Components
+### This application implements the following concepts :
+
+- MVVM + Data binding  
+- ViewModel
+- LiveData  
+- Coroutines  
+- Koin
