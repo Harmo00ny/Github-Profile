@@ -1,6 +1,5 @@
 package com.marysugar.github_profile.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
@@ -11,12 +10,12 @@ class CommonViewModel : ViewModel() {
         MutableLiveData<String>()
     }
 
-    private val _repositoryName = MutableLiveData<String>()
-    val repositoryName: LiveData<String>
-        get() = _repositoryName
+    val repositoryName: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
 
     fun setRepositoryName(name: String) {
-        _repositoryName.value = name
+        repositoryName.value = name
     }
 
 }

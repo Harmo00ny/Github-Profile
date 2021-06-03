@@ -3,13 +3,14 @@ package com.marysugar.github_profile.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.marysugar.github_profile.databinding.ItemRepositoryBinding
 import com.marysugar.github_profile.model.Repository
 
-class RepositoryListAdapter(val listener: (Repository) -> Unit)
+class RepositoryListAdapter
     : ListAdapter<Repository, RepositoryListAdapter.RepositoryViewHolder>(Companion) {
+    lateinit var listener: (Repository) -> Unit
 
     class RepositoryViewHolder(val binding: ItemRepositoryBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -36,5 +37,9 @@ class RepositoryListAdapter(val listener: (Repository) -> Unit)
         holder.binding.parent.setOnClickListener {
             listener(currentRepository)
         }
+    }
+
+    fun setOnItemClickListener(listener: (Repository) -> Unit) {
+        this.listener = listener
     }
 }

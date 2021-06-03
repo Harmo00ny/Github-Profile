@@ -12,7 +12,6 @@ import androidx.fragment.app.activityViewModels
 import com.marysugar.github_profile.R
 import com.marysugar.github_profile.databinding.FragmentRepositoryListBinding
 import com.marysugar.github_profile.model.LoadingState
-import com.marysugar.github_profile.model.Repository
 import com.marysugar.github_profile.ui.adapter.RepositoryListAdapter
 import com.marysugar.github_profile.util.ItemMarginDecoration
 import com.marysugar.github_profile.viewmodel.CommonViewModel
@@ -50,7 +49,12 @@ class RepositoryListFragment : Fragment() {
     }
 
     private fun setupUI() {
-        val adapter = RepositoryListAdapter { repository: Repository -> selectRepository(repository) }
+        val adapter = RepositoryListAdapter()
+        adapter.setOnItemClickListener {
+            Log.d(TAG,it.name)
+            commonViewModel.setRepositoryName(it.name)
+        }
+
         binding.adapter = adapter
 
         val margin = resources.getDimensionPixelOffset(R.dimen.repository_margin)
@@ -72,10 +76,6 @@ class RepositoryListFragment : Fragment() {
                 }
             })
         }
-    }
-
-    private fun selectRepository(repository : Repository) {
-        commonViewModel.setRepositoryName(repository.name)
     }
 
     companion object {
